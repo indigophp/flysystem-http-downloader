@@ -24,16 +24,22 @@ class DownloaderSpec extends ObjectBehavior
 
     function it_downloads_a_request(Filesystem $filesystem, HttpAdapterInterface $httpAdapter, Request $request, Response $response, Stream $stream)
     {
-        $resource = tmpfile();
-        fwrite($resource, 'test');
-        fseek($resource, 0);
-
         $httpAdapter->sendRequest($request)->willReturn($response);
         $response->getBody()->willReturn($stream);
-        $stream->detach()->willReturn($resource);
+        $stream->detach()->willReturn(tmpfile());
 
-        $filesystem->putStream('path/to/file', $resource)->shouldBeCalled();
+        $filesystem->putStream('path/to/file', Argument::type('resource'))->willReturn(true);
 
-        $this->download($request, 'path/to/file');
+        $this->download($request, 'path/to/file')->shouldReturn(true);
+    }
+
+    function it_returns_false_when_body_is_empty(Filesystem $filesystem, HttpAdapterInterface $httpAdapter, Request $request, Response $response, Stream $stream)
+    {
+        $httpAdapter->sendRequest($request)->willReturn($response);
+        $response->getBody()->willReturn(null);
+
+        $filesystem->putStream('path/to/file', Argument::type('resource'))->shouldNotBeCalled();
+
+        $this->download($request, 'path/to/file')->shouldReturn(false);
     }
 }
