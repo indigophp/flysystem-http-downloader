@@ -59,6 +59,10 @@ class Downloader
 
         $stream = $body->detach();
 
-        return $this->filesystem->putStream($path, $stream);
+        if (is_resource($stream)) {
+            return $this->filesystem->putStream($path, $stream);
+        }
+
+        return $this->filesystem->put($path, $stream);
     }
 }

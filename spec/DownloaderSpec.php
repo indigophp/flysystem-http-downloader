@@ -33,7 +33,7 @@ class DownloaderSpec extends ObjectBehavior
         $this->download($request, 'path/to/file')->shouldReturn(true);
     }
 
-    function it_returns_false_when_body_is_empty(Filesystem $filesystem, HttpAdapterInterface $httpAdapter, Request $request, Response $response, Stream $stream)
+    function it_returns_false_when_body_is_empty(Filesystem $filesystem, HttpAdapterInterface $httpAdapter, Request $request, Response $response)
     {
         $httpAdapter->sendRequest($request)->willReturn($response);
         $response->getBody()->willReturn(null);
@@ -41,5 +41,17 @@ class DownloaderSpec extends ObjectBehavior
         $filesystem->putStream('path/to/file', Argument::type('resource'))->shouldNotBeCalled();
 
         $this->download($request, 'path/to/file')->shouldReturn(false);
+    }
+
+    function it_handles_ivory_interface_incompatibility(Filesystem $filesystem, HttpAdapterInterface $httpAdapter, Request $request, Response $response, Stream $stream)
+    {
+        $httpAdapter->sendRequest($request)->willReturn($response);
+        $response->getBody()->willReturn($stream);
+        $stream->detach()->willReturn('text');
+
+        $filesystem->putStream('path/to/file', Argument::type('resource'))->shouldNotBeCalled();
+        $filesystem->put('path/to/file', 'text')->willReturn(true);
+
+        $this->download($request, 'path/to/file')->shouldReturn(true);
     }
 }
