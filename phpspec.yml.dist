@@ -1,0 +1,5 @@
+suites:
+  flysystem_suite:
+    namespace: Indigo\Flysystem
+    psr4_prefix: Indigo\Flysystem
+formatter.name: pretty

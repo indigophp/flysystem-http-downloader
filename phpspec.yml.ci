@@ -1,0 +1,10 @@
+suites:
+  flysystem_suite:
+    namespace: Indigo\Flysystem
+    psr4_prefix: Indigo\Flysystem
+extensions:
+  - PhpSpec\Extension\CodeCoverageExtension
+formatter.name: pretty
+code_coverage:
+  format: clover
+  output: build/coverage.xml
