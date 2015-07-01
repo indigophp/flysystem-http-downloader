@@ -29,11 +29,11 @@ Simple downloader usage:
 use Indigo\Flysystem\Downloader;
 use League\Flysystem\Filesystem;
 use Ivory\HttpAdapter\HttpAdapterInterface;
-use Psr\Http\Message\OutgoingRequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 $downloader = new Downloader(new Filesystem, /* HttpAdapterInterface */);
 
-$request = /* OutgoingRequestInterface */;
+$request = /* RequestInterface */;
 
 $downloader->download($request, 'path/to/file');
 ```
