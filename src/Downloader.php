@@ -13,7 +13,7 @@ namespace Indigo\Flysystem;
 
 use League\Flysystem\Filesystem;
 use Ivory\HttpAdapter\HttpAdapterInterface;
-use Psr\Http\Message\OutgoingRequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * HTTP Downloader
@@ -45,11 +45,11 @@ class Downloader
     /**
      * Downloads a request
      *
-     * @param OutgoingRequestInterface $request
+     * @param RequestInterface $request
      *
      * @return boolean
      */
-    public function download(OutgoingRequestInterface $request, $path)
+    public function download(RequestInterface $request, $path)
     {
         $response = $this->httpAdapter->sendRequest($request);
 

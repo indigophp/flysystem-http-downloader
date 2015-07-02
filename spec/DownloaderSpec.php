@@ -4,8 +4,8 @@ namespace spec\Indigo\Flysystem;
 
 use League\Flysystem\Filesystem;
 use Ivory\HttpAdapter\HttpAdapterInterface;
-use Psr\Http\Message\OutgoingRequestInterface as Request;
-use Psr\Http\Message\IncomingResponseInterface as Response;
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\StreamableInterface as Stream;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
